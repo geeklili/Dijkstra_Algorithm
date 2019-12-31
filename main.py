@@ -113,7 +113,7 @@ def get_line(source, target):
 	path_li[0] = 1
 
 	# 换乘时间
-	transfer_time = 5
+	transfer_time = 3
 	# 换乘的线路节点类
 	transfer_node = StageNode()
 	transfer_node.start = '换乘'
@@ -148,12 +148,16 @@ def get_line(source, target):
 				start_li[j] = (total_time, a)
 
 	# 打印起点到终点的路线
+	ret_li = list()
+	ret_di = dict()
+	ret_di['time'] = start_li[end_index][0]
+	ret_di['line_li'] = ret_li
 	for route in start_li[end_index][1]:
 		start = route.start
 		end = route.end
 		lines = route.line
 		times = route.time
-		print('-' * 100)
+		# print('-' * 100)
 		if start != '换乘':
 			line_station_di_reverse = line_station_di[lines][::-1]
 			line_time_di_reverse = line_time_di[lines][::-1]
@@ -168,13 +172,32 @@ def get_line(source, target):
 			else:
 				station_li = line_station_di[lines][index_one:index_two + 1]
 				time_li = line_time_di[lines][index_one:index_two]
-			print(lines, times)
-			print(station_li)
-			print(time_li)
+
+			one_line_di = dict()
+			one_line_di['line'] = lines
+			one_line_di['time'] = times
+			one_line_di['station'] = list()
+
+			for ind, st in enumerate(station_li):
+				if ind != station_li.__len__() - 1:
+					start_station = station_li[ind]
+					end_station = station_li[ind + 1]
+					use_time = time_li[ind]
+					one_li = (start_station, end_station, use_time)
+					one_line_di['station'].append(one_li)
+
+			# print(one_line_di)
+			ret_li.append(one_line_di)
+			# print(lines, times)
+			# print(station_li)
+			# print(time_li)
 		else:
-			print('换乘')
+			pass
+			# print('换乘')
+	return ret_di
 
 
 if __name__ == '__main__':
 	matrix_li, stations_index_li, line_station_di, line_time_di = get_matrix()
-	get_line('莘庄', '颛桥')
+	transfer_li = get_line('航头东', '虹桥火车站')
+	print(transfer_li)
