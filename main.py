@@ -3,7 +3,7 @@ from collections import defaultdict
 
 class StageNode(object):
 	"""
-	两个站点之间的线路类
+	两个站点之间的线路节点类
 	"""
 	# 起点
 	start = ''
@@ -102,19 +102,26 @@ def get_matrix():
 
 def get_line(source, target):
 	"""获取乘车线路"""
+	# 起始站点的index
 	start_index = stations_index_li[source]
+	# 终点站的index
 	end_index = stations_index_li[target]
+
+	# 以起始点为起点到各点的路线列表，这个列表非常重要，后面更新的是这个列表
 	start_li = matrix_li[start_index]
 	path_li = [0 for i in range(len(stations_index_li))]
 	path_li[0] = 1
 
+	# 换乘时间
 	transfer_time = 5
+	# 换乘的线路节点类
 	transfer_node = StageNode()
 	transfer_node.start = '换乘'
 	transfer_node.end = '换乘'
 	transfer_node.time = transfer_time
 	transfer_node.line = '换乘'
 
+	# 算法核心
 	for i in range(len(stations_index_li)):
 		short_time = 1000
 		short_index = 0
@@ -140,6 +147,7 @@ def get_line(source, target):
 				total_time = sum([i.time for i in a])
 				start_li[j] = (total_time, a)
 
+	# 打印起点到终点的路线
 	for route in start_li[end_index][1]:
 		start = route.start
 		end = route.end
