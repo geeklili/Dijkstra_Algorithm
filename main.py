@@ -125,6 +125,7 @@ def get_line(source, target):
 	for i in range(len(stations_index_li)):
 		short_time = 1000
 		short_index = 0
+		# 找到最近的点
 		for ind, a in enumerate(start_li):
 			if path_li[ind] == 0 and a[0] < short_time:
 				short_time = a[0]
@@ -133,7 +134,7 @@ def get_line(source, target):
 
 		path_li[short_index] = 1
 		# print(short_index)
-		# 以改点作为中转站，看距离会不会更近，如果更近，就更新这段列表
+		# 以该点作为中转站，看其他点到各点距离会不会更近，如果更近，就更新这段列表
 		# print(short_time, short_index)
 		for j in range(len(stations_index_li)):
 			if start_li[short_index][0] + transfer_time + matrix_li[short_index][j][0] < \
@@ -186,11 +187,7 @@ def get_line(source, target):
 					one_li = (start_station, end_station, use_time)
 					one_line_di['station'].append(one_li)
 
-			# print(one_line_di)
 			ret_li.append(one_line_di)
-			# print(lines, times)
-			# print(station_li)
-			# print(time_li)
 		else:
 			pass
 			# print('换乘')
