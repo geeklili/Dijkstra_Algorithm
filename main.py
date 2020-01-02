@@ -196,5 +196,5 @@ def get_line(source, target):
 
 if __name__ == '__main__':
 	matrix_li, stations_index_li, line_station_di, line_time_di = get_matrix()
-	transfer_li = get_line('航头东', '虹桥火车站')
+	transfer_li = get_line('莘庄', '静安寺')
 	print(transfer_li)
